@@ -1,9 +1,7 @@
 # shelly
 
 Shelly is an [erlang](http://www.erlang.org) OTP application that
-makes it simple to have a remote shell into your application. Shelly
-is designed to be embedded in applications to make it simple for teams
-to provide operational support.
+makes it simple to have a remote shell into your application.
 
 Running a SSH daemon in erlang is already very
 [simple](http://erlang.org/doc/apps/ssh/using_ssh.html#id61601) - so
