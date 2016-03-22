@@ -51,11 +51,24 @@ init([]) ->
 
 
 options() ->
-    [{inet, inet},
-     {subsystems, []},
-     {system_dir, shelly_config:system_dir()},
-     {user_dir, shelly_config:user_dir()},
-     {auth_methods, "publickey"}].
+    case shelly_config:authorized_keys() of
+        undefined ->
+            [{inet, inet},
+             {subsystems, []},
+             {system_dir, shelly_config:system_dir()},
+             {user_dir, shelly_config:user_dir()},
+             {auth_methods, "publickey"}];
+        Keys ->
+            UserDir = shelly_config:tmp_dir(),
+            ok = file:make_dir(UserDir),
+            AuthorizedKeys = filename:join(UserDir, "authorized_keys"),
+            ok = file:write_file(AuthorizedKeys, Keys),
+            [{inet, inet},
+             {subsystems, []},
+             {system_dir, shelly_config:system_dir()},
+             {user_dir, UserDir},
+             {auth_methods, "publickey"}]
+    end.
 
 handle_call(stop, _, S) ->
     {stop, normal, ok, S}.

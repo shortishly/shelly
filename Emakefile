@@ -1,4 +1,5 @@
-%% Copyright (c) 2012-2016 Peter Morgan <peter.james.morgan@gmail.com>
+%% -*- mode: erlang -*-
+%% Copyright (c) 2012-2015 Peter Morgan <peter.james.morgan@gmail.com>
 %%
 %% Licensed under the Apache License, Version 2.0 (the "License");
 %% you may not use this file except in compliance with the License.
@@ -12,29 +13,8 @@
 %% See the License for the specific language governing permissions and
 %% limitations under the License.
 
--module(shelly).
-
--export([make/0]).
--export([priv_file/1]).
--export([start/0]).
-
-
-start() ->
-    application:ensure_all_started(?MODULE).
-
-
-priv_dir() ->
-    case code:priv_dir(?MODULE) of
-        {error, bad_name} ->
-            error(badarg);
-
-        Filename ->
-            Filename
-    end.
-
-
-priv_file(Filename) ->
-    filename:join(priv_dir(), Filename).
-
-make() ->
-    make:all([load]).
+{["src/*"], 
+ [{i, "include"},
+  {outdir, "ebin"},
+  debug_info]
+}.

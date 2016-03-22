@@ -14,12 +14,12 @@
 
 -module(shelly_config).
 
-
+-export([authorized_keys/0]).
 -export([enabled/1]).
 -export([port/1]).
 -export([system_dir/0]).
 -export([user_dir/0]).
-
+-export([tmp_dir/0]).
 
 port(sshd) ->
     envy:to_integer(shelly, port, default(22)).
@@ -35,6 +35,24 @@ system_dir() ->
 
 user_dir() ->
     envy:to_list(shelly, user_dir, default(shelly:priv_file("ssh"))).
+
+
+authorized_keys() ->
+    envy:get_env(shelly, authorized_keys, [os_env]).
+
+
+tmp_dir() ->
+    TMPDIR = case gproc:get_env(l, shelly, tmpdir, [os_env]) of
+                 undefined ->
+                     "/tmp/";
+                 Directory ->
+                     Directory
+             end,
+    Unique = erlang:phash2({erlang:phash2(node()),
+                            erlang:monotonic_time(),
+                            erlang:unique_integer()}),
+    filename:join(TMPDIR, "shelly-" ++ integer_to_list(Unique)).
+
 
 
 default(Default) ->

@@ -11,18 +11,28 @@ your OTP application enabling remote SSH directly into the
 
 Shelly uses the following environment variables:
 
-|Variable           |Default      |Description                                              |
-|-------------------|-------------|---------------------------------------------------------|
-|SHELLY\_PORT       |22           |Shelly listenes for incoming SSH connections on this port|
-|SHELLY\_ENABLED    |true         |Shelly is enabled when this value is true                |
-|SHELLY\_SYSTEM\_DIR|priv/ssh     |Shelly uses this directory to find the host key          |
-|SHELLY\_USER\_DIR  |priv/ssh     |Shelly uses this directory to find authorised_keys       |
+|Variable                |Default |Description                                             |
+|------------------------|--------|--------------------------------------------------------|
+|SHELLY\_PORT            |22      |Shelly listens for incoming SSH connections on this port|
+|SHELLY\_ENABLED         |true    |Shelly is enabled when this value is true               |
+|SHELLY\_SYSTEM\_DIR     |priv/ssh|Shelly uses this directory to find the host key         |
+|SHELLY\_USER\_DIR       |priv/ssh|Shelly uses this directory to find authorised_keys      |
+|SHELLY\_AUTHORIZED\_KEYS|        |The authorized keys to use overriding SHELLY\_USER\_DIR |
 
 Assuming that `~/.ssh` contains an `authorised_keys` file, typical usage:
 
 ```shell
 SHELLY_USER_DIR=~/.ssh SHELLY_PORT=22022 make shell
 ```
+
+Or:
+
+```shell
+SHELLY_PORT=22022 SHELLY_AUTHORIZED_KEYS="$(cat ~/.ssh/authorized_keys)" make shell
+```
+
+The above is useful for dockerized applications to supply the
+authorizeds keys without having to setup volumes.
 
 In another shell, you can log into the BEAM as follows:
 
