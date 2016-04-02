@@ -60,6 +60,7 @@ options() ->
              {auth_methods, "publickey"}];
         Keys ->
             UserDir = shelly_config:tmp_dir(),
+            ok = filelib:ensure_dir(UserDir),
             ok = file:make_dir(UserDir),
             AuthorizedKeys = filename:join(UserDir, "authorized_keys"),
             ok = file:write_file(AuthorizedKeys, Keys),
