@@ -30,11 +30,11 @@ enabled(sshd) ->
 
 
 system_dir() ->
-    envy:to_list(shelly, system_dir, default(shelly:priv_file("ssh"))).
+    envy:to_list(shelly, system_dir, default(shelly:priv_file("ssh/system"))).
 
 
 user_dir() ->
-    envy:to_list(shelly, user_dir, default(shelly:priv_file("ssh"))).
+    envy:to_list(shelly, user_dir, default(shelly:priv_file("ssh/user"))).
 
 
 authorized_keys() ->
