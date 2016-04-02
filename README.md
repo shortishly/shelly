@@ -21,7 +21,7 @@ Shelly uses the following environment variables:
 |SHELLY\_USER\_DIR       |priv/ssh|Shelly uses this directory to find authorised_keys      |
 |SHELLY\_AUTHORIZED\_KEYS|        |The authorized keys to use overriding SHELLY\_USER\_DIR |
 
-Assuming that `~/.ssh` contains an `authorised_keys` file, typical usage:
+Assuming that `~/.ssh` contains an `authorized_keys` file, typical usage:
 
 ```shell
 SHELLY_USER_DIR=~/.ssh SHELLY_PORT=22022 make shell
