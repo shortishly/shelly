@@ -1,5 +1,7 @@
 # shelly
 
+[![Build Status](https://travis-ci.org/shortishly/shelly.svg)](https://travis-ci.org/shortishly/shelly)
+
 Shelly is an [erlang](http://www.erlang.org) OTP application that
 makes it simple to have a remote shell into your application.
 
