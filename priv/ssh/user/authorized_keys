@@ -1,0 +1,3 @@
+# This file is deliberately empty, and should be overridden by:
+# SHELLY_AUTHORIZED_KEYS, or
+# SHELLY_USER_DIR
