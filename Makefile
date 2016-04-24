@@ -22,12 +22,21 @@ DEPS = \
 
 LOCAL_DEPS = \
 	crypto \
+	sasl \
 	ssh
 
 dep_envy = git https://github.com/shortishly/envy.git master
 
 SHELL_OPTS = \
+	-boot start_sasl \
+	-config dev.config \
+	-name $(PROJECT) \
 	-s $(PROJECT) \
-	-sname $(PROJECT)
+	-s sync \
+	-setcookie $(PROJECT)
+
+SHELL_DEPS = \
+	sync
+
 
 include erlang.mk
