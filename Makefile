@@ -15,19 +15,28 @@
 #
 PROJECT = shelly
 PROJECT_DESCRIPTION = secure shell
-PROJECT_VERSION = 0.0.1
+PROJECT_VERSION = 0.1.0
 
 DEPS = \
 	envy
 
 LOCAL_DEPS = \
 	crypto \
+	sasl \
 	ssh
 
 dep_envy = git https://github.com/shortishly/envy.git master
 
 SHELL_OPTS = \
+	-boot start_sasl \
+	-config dev.config \
+	-name $(PROJECT) \
 	-s $(PROJECT) \
-	-sname $(PROJECT)
+	-s sync \
+	-setcookie $(PROJECT)
+
+SHELL_DEPS = \
+	sync
+
 
 include erlang.mk

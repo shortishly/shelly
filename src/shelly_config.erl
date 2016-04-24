@@ -21,20 +21,21 @@
 -export([user_dir/0]).
 -export([tmp_dir/0]).
 
+
 port(sshd) ->
-    envy:to_integer(shelly, port, default(22)).
+    envy(to_integer, port, 22).
 
 
 enabled(sshd) ->
-    envy:to_boolean(shelly, enabled, default(true)).
+    envy(to_boolean, enabled, true).
 
 
 system_dir() ->
-    envy:to_list(shelly, system_dir, default(shelly:priv_file("ssh/system"))).
+    envy(to_list, system_dir, shelly:priv_file("ssh/system")).
 
 
 user_dir() ->
-    envy:to_list(shelly, user_dir, default(shelly:priv_file("ssh/user"))).
+    envy(to_list, user_dir, shelly:priv_file("ssh/user")).
 
 
 authorized_keys() ->
@@ -54,6 +55,8 @@ tmp_dir() ->
     filename:join(TMPDIR, "shelly-" ++ integer_to_list(Unique)).
 
 
+envy(To, Name, Default) ->
+    envy:To(shelly, Name, default(Default)).
 
 default(Default) ->
-    [os_env, {default, Default}].
+    [os_env, app_env, {default, Default}].
