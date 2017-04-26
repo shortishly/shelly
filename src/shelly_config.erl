@@ -16,6 +16,7 @@
 
 -export([authorized_keys/0]).
 -export([enabled/1]).
+-export([password/0]).
 -export([port/1]).
 -export([system_dir/0]).
 -export([user_dir/0]).
@@ -40,6 +41,10 @@ user_dir() ->
 
 authorized_keys() ->
     envy:get_env(shelly, authorized_keys, [os_env]).
+
+
+password() ->
+    envy:get_env(shelly, password, [os_env]).
 
 
 tmp_dir() ->
