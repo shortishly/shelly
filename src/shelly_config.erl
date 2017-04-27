@@ -44,7 +44,23 @@ authorized_keys() ->
 
 
 password() ->
-    envy:get_env(shelly, password, [os_env]).
+    case secret("com.github.shortishly.shelly.password") of
+        {ok, Password} ->
+            envy(to_list, password, Password);
+
+        {error, _} ->
+            envy:get_env(shelly, password, [os_env])
+    end.
+
+
+secret(Name) ->
+    case file:read_file(filename:join("/run/secrets/", Name)) of
+        {error, _} = Error ->
+            Error;
+
+        {ok, Contents} ->
+            {ok, binary_to_list(Contents)}
+    end.
 
 
 tmp_dir() ->

@@ -1,7 +1,5 @@
-image: reg001.local:5000/shortishly/erlang-docker
+image: shortishly/erlang-docker
 
-before_script:
-  - git config --global url.http://gitlab.dev.sunninghill.org/shortishly.insteadOf https://github.com/shortishly
 types:
     - build
 
