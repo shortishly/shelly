@@ -15,7 +15,6 @@
 #
 PROJECT = shelly
 PROJECT_DESCRIPTION = secure shell
-PROJECT_VERSION = 0.1.0
 
 DEPS = \
 	envy
