@@ -25,7 +25,7 @@ LOCAL_DEPS = \
 	ssh
 
 dep_envy = git https://github.com/shortishly/envy.git
-dep_envy_commit = 0.2.0
+dep_envy_commit = 0.4.0
 
 SHELL_OPTS = \
 	-boot start_sasl \
