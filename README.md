@@ -1,14 +1,14 @@
 # shelly
 
-[![Build Status](https://travis-ci.org/shortishly/shelly.svg)](https://travis-ci.org/shortishly/shelly)
+![main](https://github.com/shortishly/shelly/actions/workflows/main.yml/badge.svg)
 
 Shelly is an [erlang](http://www.erlang.org) OTP application that
 makes it simple to have a remote shell into your application.
 
 Running a SSH daemon in erlang is already very
-[simple](http://erlang.org/doc/apps/ssh/using_ssh.html#id61601) - so
-this is a general purpose micro application that you can include in
-your OTP application enabling remote SSH directly into the
+[simple](http://erlang.org/doc/apps/ssh/using_ssh.html#id61601).  This
+is a general purpose micro application that you can include in your
+OTP application enabling remote SSH directly into the
 [BEAM](https://en.wikipedia.org/wiki/Erlang_(programming_language)).
 
 Shelly uses the following environment variables:
