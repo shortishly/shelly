@@ -66,9 +66,10 @@ secret(Name) ->
 
 
 tmp_dir() ->
-    TMPDIR = case gproc:get_env(l, shelly, tmpdir, [os_env]) of
-                 undefined ->
+    TMPDIR = case os:getenv("TMPDIR") of
+                 false ->
                      "/tmp/";
+
                  Directory ->
                      Directory
              end,

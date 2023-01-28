@@ -28,7 +28,7 @@ LOCAL_DEPS = \
 	ssh
 
 dep_envy = git https://github.com/shortishly/envy.git
-dep_envy_commit = 0.4.0
+dep_envy_commit = 0.7.2
 
 
 SHELL_OPTS = \
@@ -41,6 +41,7 @@ SHELL_DEPS = \
 	sync
 
 
+BUILD_DEPS += relx
 include erlang.mk
 
 priv/ssh/system/ssh_host_rsa_key.pub:

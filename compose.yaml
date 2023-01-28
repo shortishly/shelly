@@ -1,0 +1,38 @@
+---
+services:
+  postgres:
+    image:
+      postgres:${POSTGRES_VERSION:-15}
+    environment:
+      PGUSER: postgres
+      POSTGRES_PASSWORD: postgres
+    command:
+      -c wal_level=logical
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: /usr/bin/pg_isready
+      interval: 5s
+      timeout: 10s
+      retries: 5
+    pull_policy:
+      ${PULL_POLICY:-missing}
+  erlang:
+    image:
+      erlang:${ERLANG_VERSION:-25.2}
+    command:
+      /bin/sh -c "while sleep 1000; do :; done"
+    pull_policy:
+      ${PULL_POLICY:-missing}
+  shelly:
+    image:
+      ${SHELLY_IMAGE:-ghcr.io/shortishly/shelly:${SHELLY_VERSION:-latest}}
+    environment:
+      SHELLY_ENABLED: true
+      SHELLY_PASSWORD: hello
+    ports:
+      - 22022:22
+    links:
+      - postgres
+    pull_policy:
+      ${PULL_POLICY:-always}
