@@ -1,5 +1,5 @@
 #-*- mode: makefile-gmake -*-
-# Copyright (c) 2012-2016 Peter Morgan <peter.james.morgan@gmail.com>
+# Copyright (c) 2012-2022 Peter Morgan <peter.james.morgan@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,24 +19,37 @@ PROJECT_DESCRIPTION = secure shell
 DEPS = \
 	envy
 
+RELX_TAR = 0
+COVER = 1
+
 LOCAL_DEPS = \
 	crypto \
 	sasl \
 	ssh
 
 dep_envy = git https://github.com/shortishly/envy.git
-dep_envy_commit = 0.4.0
+dep_envy_commit = 0.7.2
+
 
 SHELL_OPTS = \
-	-boot start_sasl \
 	-config dev.config \
-	-name $(PROJECT) \
 	-s $(PROJECT) \
-	-s sync \
-	-setcookie $(PROJECT)
+	-s sync
+
 
 SHELL_DEPS = \
 	sync
 
 
+BUILD_DEPS += relx
 include erlang.mk
+
+priv/ssh/system/ssh_host_rsa_key.pub:
+	$(gen_verbose) ssh-keygen -N "" -t rsa -f priv/ssh/system/ssh_host_rsa_key
+
+distclean-host-key:
+	$(gen_verbose) rm -f priv/ssh/system/ssh_host_rsa_key priv/ssh/system/ssh_host_rsa_key.pub
+
+app:: priv/ssh/system/ssh_host_rsa_key.pub
+
+distclean:: distclean-host-key

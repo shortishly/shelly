@@ -12,15 +12,17 @@
 %% See the License for the specific language governing permissions and
 %% limitations under the License.
 
+
 -module(shelly_config).
+
 
 -export([authorized_keys/0]).
 -export([enabled/1]).
 -export([password/0]).
 -export([port/1]).
 -export([system_dir/0]).
--export([user_dir/0]).
 -export([tmp_dir/0]).
+-export([user_dir/0]).
 
 
 port(sshd) ->
@@ -64,9 +66,10 @@ secret(Name) ->
 
 
 tmp_dir() ->
-    TMPDIR = case gproc:get_env(l, shelly, tmpdir, [os_env]) of
-                 undefined ->
+    TMPDIR = case os:getenv("TMPDIR") of
+                 false ->
                      "/tmp/";
+
                  Directory ->
                      Directory
              end,
