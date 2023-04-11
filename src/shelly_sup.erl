@@ -33,7 +33,7 @@ init([]) ->
             {ok, {#{}, children()}};
 
         false ->
-            ignore
+            {ok, {#{}, []}}
     end.
 
 
