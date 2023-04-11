@@ -1,4 +1,4 @@
-%% Copyright (c) 2012-2023 Peter Morgan <peter.james.morgan@gmail.com>
+%% Copyright (c) 2023 Peter Morgan <peter.james.morgan@gmail.com>
 %%
 %% Licensed under the Apache License, Version 2.0 (the "License");
 %% you may not use this file except in compliance with the License.
@@ -13,26 +13,13 @@
 %% limitations under the License.
 
 
--module(shelly).
+-module(shelly_statem).
+
+-export([nei/1]).
 
 
--export([priv_file/1]).
--export([start/0]).
+-spec nei(any()) -> {next_event, internal, any()}.
 
+nei(Event) ->
+    {next_event, internal, Event}.
 
-start() ->
-    application:ensure_all_started(?MODULE).
-
-
-priv_dir() ->
-    case code:priv_dir(?MODULE) of
-        {error, bad_name} ->
-            error(badarg, [?MODULE]);
-
-        Filename ->
-            Filename
-    end.
-
-
-priv_file(Filename) ->
-    filename:join(priv_dir(), Filename).

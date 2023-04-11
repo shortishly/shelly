@@ -1,4 +1,4 @@
-%% Copyright (c) 2012-2022 Peter Morgan <peter.james.morgan@gmail.com>
+%% Copyright (c) 2012-2023 Peter Morgan <peter.james.morgan@gmail.com>
 %%
 %% Licensed under the Apache License, Version 2.0 (the "License");
 %% you may not use this file except in compliance with the License.
@@ -16,8 +16,11 @@
 
 
 -behaviour(supervisor).
+-export([get_child/1]).
 -export([init/1]).
 -export([start_link/0]).
+-export([supervisor/1]).
+-export([worker/1]).
 
 
 start_link() ->
@@ -25,23 +28,46 @@ start_link() ->
 
 
 init([]) ->
-    {ok, {#{}, [worker(shelly_server)]}}.
+    case shelly_config:enabled(sshd) of
+        true ->
+            {ok, {#{}, children()}};
+
+        false ->
+            ignore
+    end.
 
 
-worker(Module) ->
-    worker(Module, permanent).
+children() ->
+    [worker(shelly_key_store), worker(shelly_ssh_daemon)].
 
 
-worker(Module, Restart) ->
-    worker(Module, Restart, []).
+worker(Arg) ->
+    child(Arg).
 
 
-worker(Module, Restart, Parameters) ->
-    worker(Module, Module, Restart, Parameters).
+supervisor(Arg) ->
+    maps:merge(child(Arg), #{type => supervisor}).
 
 
-worker(Id, Module, Restart, Parameters) ->
-    #{id => Id,
-      start => {Module, start_link, Parameters},
-      restart => Restart,
-      shutdown => 5000}.
+child(#{m := M} = Arg) ->
+    maps:merge(
+      #{id => M, start => mfargs(Arg)},
+      maps:with(keys(), Arg));
+
+child(Arg) when is_atom(Arg) ->
+    ?FUNCTION_NAME(#{m => Arg}).
+
+
+mfargs(#{m := M} = Arg) ->
+    {M, maps:get(f, Arg, start_link), maps:get(args, Arg, [])}.
+
+
+keys() ->
+    [id, start, restart, significant, shutdown, type, modules].
+
+
+get_child(Id) ->
+    ?FUNCTION_NAME(?MODULE, Id).
+
+get_child(SupRef, Id) ->
+    lists:keyfind(Id, 1, supervisor:which_children(SupRef)).

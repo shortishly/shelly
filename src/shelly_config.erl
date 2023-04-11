@@ -1,4 +1,4 @@
-%% Copyright (c) 2012-2016 Peter Morgan <peter.james.morgan@gmail.com>
+%% Copyright (c) 2012-2023 Peter Morgan <peter.james.morgan@gmail.com>
 %%
 %% Licensed under the Apache License, Version 2.0 (the "License");
 %% you may not use this file except in compliance with the License.
@@ -21,8 +21,8 @@
 -export([password/0]).
 -export([port/1]).
 -export([system_dir/0]).
--export([tmp_dir/0]).
 -export([user_dir/0]).
+-include_lib("kernel/include/logger.hrl").
 
 
 port(sshd) ->
@@ -34,11 +34,17 @@ enabled(sshd) ->
 
 
 system_dir() ->
-    envy(to_list, system_dir, shelly:priv_file("ssh/system")).
+    envy(to_list, system_dir, "/etc/ssh").
 
 
 user_dir() ->
-    envy(to_list, user_dir, shelly:priv_file("ssh/user")).
+    case os:getenv("HOME") of
+        false ->
+            envy(to_list, user_dir, shelly:priv_file("ssh/user"));
+
+        Home ->
+            envy(to_list, user_dir, filename:join(Home, ".ssh"))
+    end.
 
 
 authorized_keys() ->
@@ -63,20 +69,6 @@ secret(Name) ->
         {ok, Contents} ->
             {ok, binary_to_list(Contents)}
     end.
-
-
-tmp_dir() ->
-    TMPDIR = case os:getenv("TMPDIR") of
-                 false ->
-                     "/tmp/";
-
-                 Directory ->
-                     Directory
-             end,
-    Unique = erlang:phash2({erlang:phash2(node()),
-                            erlang:monotonic_time(),
-                            erlang:unique_integer()}),
-    filename:join(TMPDIR, "shelly-" ++ integer_to_list(Unique)).
 
 
 envy(To, Name, Default) ->

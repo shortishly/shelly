@@ -13,13 +13,13 @@ OTP application enabling remote SSH directly into the
 
 Shelly uses the following environment variables:
 
-|Variable                |Default |Description                                             |
-|------------------------|--------|--------------------------------------------------------|
-|SHELLY\_PORT            |22      |Shelly listens for incoming SSH connections on this port|
-|SHELLY\_ENABLED         |true    |Shelly is enabled when this value is true               |
-|SHELLY\_SYSTEM\_DIR     |priv/ssh|Shelly uses this directory to find the host key         |
-|SHELLY\_USER\_DIR       |priv/ssh|Shelly uses this directory to find authorised_keys      |
-|SHELLY\_AUTHORIZED\_KEYS|        |The authorized keys to use overriding SHELLY\_USER\_DIR |
+|Variable                |Default     |Description                                             |
+|------------------------|------------|--------------------------------------------------------|
+|SHELLY\_PORT            |22          |Shelly listens for incoming SSH connections on this port|
+|SHELLY\_ENABLED         |true        |Shelly is enabled when this value is true               |
+|SHELLY\_SYSTEM\_DIR     |/etc/ssh    |Shelly uses this directory to find the host key         |
+|SHELLY\_USER\_DIR       |${HOME}/.ssh|Shelly uses this directory to find authorised_keys      |
+|SHELLY\_AUTHORIZED\_KEYS|            |The authorized keys to use overriding SHELLY\_USER\_DIR |
 
 Assuming that `~/.ssh` contains an `authorized_keys` file, typical usage:
 

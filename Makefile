@@ -1,5 +1,5 @@
 #-*- mode: makefile-gmake -*-
-# Copyright (c) 2012-2022 Peter Morgan <peter.james.morgan@gmail.com>
+# Copyright (c) 2012-2023 Peter Morgan <peter.james.morgan@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ DEPS = \
 	envy
 
 RELX_TAR = 0
-COVER = 1
 
 LOCAL_DEPS = \
 	crypto \
@@ -41,15 +40,26 @@ SHELL_DEPS = \
 	sync
 
 
+PLT_APPS = \
+	any \
+	asn1 \
+	bbmustache \
+	compiler \
+	crypto \
+	envy \
+	inets \
+	mnesia \
+	public_key \
+	runtime_tools \
+	ssl \
+	stdlib \
+	syntax_tools \
+	tools \
+	xmerl
+
+
 BUILD_DEPS += relx
-include erlang.mk
 
-priv/ssh/system/ssh_host_rsa_key.pub:
-	$(gen_verbose) ssh-keygen -N "" -t rsa -f priv/ssh/system/ssh_host_rsa_key
+include $(if $(ERLANG_MK_FILENAME),$(ERLANG_MK_FILENAME),erlang.mk)
 
-distclean-host-key:
-	$(gen_verbose) rm -f priv/ssh/system/ssh_host_rsa_key priv/ssh/system/ssh_host_rsa_key.pub
-
-app:: priv/ssh/system/ssh_host_rsa_key.pub
-
-distclean:: distclean-host-key
+app:: rebar.config

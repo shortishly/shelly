@@ -6,12 +6,14 @@
 .eunit
 /*.d
 /beam-docker-release-action
+/ebin/*.beam
+/ebin/test
 /recompile.log
 \#*\#
 _rel
+cover
 db
 deps
-ebin
 elvis
 elvis.config
 erl_crash.dump

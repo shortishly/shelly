@@ -1,9 +1,0 @@
-image: shortishly/erlang-docker
-
-types:
-    - build
-
-build:
-    type: build
-    script:
-        - make
